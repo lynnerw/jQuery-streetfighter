@@ -1,43 +1,50 @@
 $(document).ready(function() {
-   $(".ryu").mouseenter(function() {
-     $(".ryu-still").hide();
-     $(".ryu-ready").show();
+   $('.ryu').mouseenter(function() {
+     $('.ryu-state').removeClass('ryu-active');
+     $('.ryu-ready').addClass('ryu-active');
    })
    .mouseleave(function() {
-     $(".ryu-ready").hide();
-     $(".ryu-still").show();
+     $('.ryu-state').removeClass('ryu-active');
+     $('.ryu-still').addClass('ryu-active');
    })
    .mousedown(function() {
      playHadouken();
-     $(".ryu-ready").hide();
-     $(".ryu-throwing").show();
-     $(".hadouken").finish().show().animate(
-       {"left": "1020px"},
-       500,
-       function() {
-         $(this).stop();
-         $(this).hide();
-         $(this).css("left", "520px");
-       }
+     $('.ryu-state').removeClass('ryu-active');
+     $('.ryu-throwing').addClass('ryu-active');
+     $('.hadouken').finish().show().animate(
+          {"left": "1020px"},
+          500,
+          function() {
+          $(this).stop();
+          $(this).hide();
+          $(this).css("left", "520px");
+        }
      );
     })
    .mouseup(function() {
-     $(".ryu-throwing").hide();
-     $(".ryu-ready").show();
+     $('.ryu-state').removeClass('ryu-active');
+     $('.ryu-ready').addClass('ryu-active');
    });
 
+var xKeyPressed = false;
 $(document).keydown(function(e) {
     if (e.keyCode == 88) {
-      playCool();
-      $(".ryu-throwing").hide();
-      $(".ryu-cool").show();
+      if (xKeyPressed === false) {
+         xKeyPressed = true;
+            playCool();
+            $('.ryu-state').removeClass('ryu-active');
+            $('.ryu-cool').addClass('ryu-active');
+          }
     }
   }).keyup(function(e) {
     if (e.keyCode == 88) {
-      $("#cool")[0].pause();
-      $("#cool")[0].load();
-      $(".ryu-cool").hide();
-      $(".ryu-still").show();
+      if (xKeyPressed === true) {
+          xKeyPressed = false;
+             $("#cool")[0].pause();
++            $("#cool")[0].load();
+             $('.ryu-state').removeClass('ryu-active');
+             $('.ryu-still').addClass('ryu-active');
+          }
      }
  });
  })
